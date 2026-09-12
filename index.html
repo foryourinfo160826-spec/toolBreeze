@@ -1174,10 +1174,7 @@
             const codeOutput = document.getElementById('codeFormatterOutput');
             const codeLang = document.getElementById('codeLangSelect');
 
-            if (codeInput) {
-                codeInput.value = `import base64\nimport os\n\nrandom_b64 = base64.b64encode(os.urandom(16)).decode('utf-8')print(random_b64)`;
-            }
-
+          
             function formatHTML(code) {
                 let formatted = '', indent = 0;
                 const tokens = code.replace(/</g, '~%~<').replace(/>/g, '>~%~').split('~%~');
