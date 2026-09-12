@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolBreeze - Developer Utilities Dashboard</title>
+    
+    <!-- SEO & Open Graph Meta Tags -->
+    <meta name="description" content="Professional client-side micro-SaaS utilities for developers including Code Formatters, JWT Inspectors, Base64 Encoders, and Git Command Helpers.">
+    <meta name="keywords" content="developer tools, code formatter, jwt inspector, base64 encoder, git helper, micro-saas">
+    <link rel="canonical" href="https://toolbreeze.pro/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolbreeze.pro/">
+    <meta property="og:title" content="ToolBreezePro - Micro-SaaS Utilities">
+    <meta property="og:description" content="Professional client-side developer tools for formatting, encoding, and debugging.">
+    <meta property="og:image" content="https://toolbreeze.pro/assets/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolbreeze.pro/">
+    <meta property="twitter:title" content="ToolBreezePro - Micro-SaaS Utilities">
+    <meta property="twitter:description" content="Professional client-side developer tools for formatting, encoding, and debugging.">
+    <meta property="twitter:image" content="https://toolbreeze.pro/assets/og-image.png">
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ToolBreezePro",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      },
+      "description": "Client-side developer utilities including Code Formatters, JWT Inspectors, Base64 Encoders, and Git Command Helpers."
+    }
+    </script>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --card-bg: rgba(18, 26, 43, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-color: #10b981;
+            --accent-hover: #059669;
+            --sidebar-width: 260px;
+            --code-bg: #0d1117;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f3f4f6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        /* JetBrains Mono for inputs and outputs */
+        .code-font, textarea, code, pre {
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tool-card {
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(16, 185, 129, 0.4) !important;
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.15);
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: var(--sidebar-width);
+            background: rgba(11, 15, 25, 0.95);
+            border-right: 1px solid var(--card-border);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1040;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 991.98px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+            #sidebar.show {
+                transform: translateX(0);
+            }
+            #main-wrapper {
+                margin-left: 0 !important;
+            }
+        }
+
+        #main-wrapper {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar-brand-link {
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .sidebar-brand-link:hover {
+            opacity: 0.9;
+        }
+
+        .sidebar-nav {
+            padding: 12px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .nav-category {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6b7280;
+            font-weight: 700;
+            padding: 10px 12px 4px 12px;
+        }
+
+        .sidebar-btn {
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #f3f4f6;
+        }
+
+        .sidebar-btn.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Top Bar Header */
+        .navbar-top {
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 24px;
+            sticky: top;
+            z-index: 1030;
+        }
+
+        /* Tab Content Switching */
+        .tab-panel-content {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        .tab-panel-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form Controls Dark Mode */
+        .form-control, .form-select {
+            background-color: var(--code-bg);
+            border: 1px solid var(--card-border);
+            color: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: var(--code-bg);
+            border-color: var(--accent-color);
+            color: #ffffff;
+            box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.2);
+        }
+
+        /* Custom Button */
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: #052e16;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 18px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-accent:hover {
+            background-color: var(--accent-hover);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* GitHub Style Diff Table */
+        .diff-container {
+            background: var(--code-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .diff-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+
+        .diff-table td {
+            padding: 3px 8px;
+            vertical-align: top;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .diff-line-num {
+            width: 45px;
+            text-align: right;
+            color: #484f58;
+            user-select: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding-right: 8px !important;
+        }
+
+        .diff-line-add { background-color: rgba(46, 160, 67, 0.18); color: #7ee787; }
+        .diff-line-del { background-color: rgba(248, 81, 73, 0.18); color: #ffa198; }
+        .diff-line-same { color: #c9d1d9; }
+
+        .diff-unfold-bar {
+            background: #161b22;
+            color: #8b949e;
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            user-select: none;
+        }
+
+        .diff-unfold-bar:hover {
+            background: #21262d;
+            color: #58a6ff;
+        }
+
+        /* Adsterra Banner Slots */
+        .ad-container-leaderboard {
+            width: 100%;
+            min-height: 90px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--card-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .adsterra-social-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            max-width: 320px;
+            background: rgba(15, 22, 35, 0.95);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            animation: slideInUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .native-ad-badge {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            background: rgba(234, 179, 8, 0.2);
+            color: #fde047;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .history-item-interactive {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .history-item-interactive:hover {
+            background-color: rgba(255, 255, 255, 0.06) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <aside id="sidebar">
+        <a class="sidebar-brand-link" id="sidebarLogoLink">
+            <span class="d-inline-flex p-2 rounded-3 bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                <i class="bi bi-terminal-fill fs-5"></i>
+            </span>
+            <div>
+                <span class="fw-bold text-light fs-6 d-block lh-1">ToolBreeze</span>
+                <span class="text-secondary" style="font-size: 0.72rem;">Micro-SaaS Utilities</span>
+            </div>
+        </a>
+
+        <nav class="sidebar-nav">
+            <button class="sidebar-btn active mb-1" data-target="home-panel" data-title="ToolBreeze - Developer Utilities & Dashboard">
+                <i class="bi bi-house-door"></i>Dashboard / Home
+            </button>
+
+            <div class="nav-category mt-2">Core Utilities</div>
+            <button class="sidebar-btn mb-1" data-target="formatter-panel" data-title="Code Formatter - toolbreeze">
+                <i class="bi bi-code-slash"></i>Code Formatter
+            </button>
+            <button class="sidebar-btn mb-1" data-target="diff-panel" data-title="GitHub Code Diff - toolbreeze">
+                <i class="bi bi-file-diff"></i>GitHub Code Diff
+            </button>
+            <button class="sidebar-btn mb-1" data-target="git-panel" data-title="Git CLI Helper - toolbreeze">
+                <i class="bi bi-git"></i>Git Command Helper
+            </button>
+
+            <div class="nav-category mt-2">Data & Security</div>
+            <button class="sidebar-btn mb-1" data-target="jwt-panel" data-title="JWT Decoder - toolbreeze">
+                <i class="bi bi-key"></i>JWT Inspector
+            </button>
+            <button class="sidebar-btn mb-1" data-target="base64-panel" data-title="Base64 Encoder/Decoder - toolbreeze">
+                <i class="bi bi-shield-lock"></i>Base64 Encoder
+            </button>
+            <button class="sidebar-btn mb-1" data-target="hash-panel" data-title="Hash Generator - toolbreeze">
+                <i class="bi bi-hash"></i>SHA-256 Hasher
+            </button>
+
+            <div class="nav-category mt-2">Text & Utilities</div>
+            <button class="sidebar-btn mb-1" data-target="regex-panel" data-title="Regex Tester - toolbreeze">
+                <i class="bi bi-regex"></i>Regex Evaluator
+            </button>
+            <button class="sidebar-btn mb-1" data-target="cron-panel" data-title="Cron Syntax Explainer - toolbreeze">
+                <i class="bi bi-clock-history"></i>Cron Schedule Explainer
+            </button>
+            <button class="sidebar-btn mb-1" data-target="uuid-panel" data-title="UUID v4 Generator - toolbreeze">
+                <i class="bi bi-ui-checks-grid"></i>UUID Generator
+            </button>
+        </nav>
+
+        <!-- Sidebar Vertical Ad Slot (Commented out until approved) -->
+        <!-- <div class="p-3 border-top border-secondary border-opacity-10">
+            <div class="ad-container-leaderboard py-3 text-center d-flex flex-column gap-1" style="min-height: 180px;">
+                <span class="native-ad-badge">Adsterra Slot</span>
+                <span class="text-secondary small">160x600 / 300x250</span>
+                <span class="text-secondary" style="font-size: 0.7rem;">Sidebar Banner</span>
+            </div>
+        </div> -->
+    </aside>
+
+    <div id="main-wrapper">
+        <header class="navbar navbar-top d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-outline-secondary d-lg-none me-1" id="toggleSidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a class="fw-bold text-white text-decoration-none d-flex align-items-center gap-2" id="headerLogoLink" style="cursor: pointer;">
+                    <span class="d-inline-flex p-1 px-2 rounded-3 bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                        <i class="bi bi-terminal-fill fs-6"></i>
+                    </span>
+                    <span class="fs-6">ToolBreeze</span>
+                </a>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="navbar-text small text-secondary d-none d-md-inline">
+                    Developer Suite v2.5 &bull; Client-Side
+                </span>
+                <button class="btn btn-sm btn-outline-secondary" id="toggleHistory" data-bs-toggle="offcanvas" data-bs-target="#historyDrawer">
+                    <i class="bi bi-clock-history me-1"></i> History
+                </button>
+            </div>
+        </header>
+
+        <main class="container-fluid my-4 px-3 px-md-4 flex-grow-1">
+
+            <!-- MAIN LANDING DASHBOARD (HOME) -->
+            <div class="tab-panel-content active" id="home-panel">
+                <!-- Leaderboard Ad Slot (Commented out until approved) -->
+                <!-- <div class="ad-container-leaderboard mb-4 p-2 text-center">
+                    <span class="native-ad-badge position-absolute top-0 start-0 m-2">Adsterra Leaderboard</span>
+                    <div class="text-secondary small">
+                        <i class="bi bi-badge-ad fs-4 d-block text-secondary"></i>
+                        <span>Sponsored Banner Space (728x90 / 320x50)</span>
+                    </div>
+                </div> -->
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="h4 text-light fw-bold mb-1">Developer Utilities Dashboard</h1>
+                        <p class="text-secondary small mb-0">Select a tool to launch or view your recent local history</p>
+                    </div>
+                </div>
+
+                <!-- Grid of Tool Selection Cards with Integrated Native Adsterra Ads -->
+                <div class="row g-3">
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('formatter-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-3 rounded-3 bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                                    <i class="bi bi-code-slash fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">Code Formatter</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">Python, JSON, SQL & More</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Format code & parse concatenated Python statements automatically into readable indentation.</p>
+                            <span class="text-success small fw-semibold">Open Formatter &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('diff-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-3 rounded-3 bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">
+                                    <i class="bi bi-file-diff fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">GitHub Code Diff</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">Collapsible Context</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Compare snippets with line numbers and GitHub-style 3-line collapsible code unfold blocks.</p>
+                            <span class="text-primary small fw-semibold">Compare Diff &rarr;</span>
+                        </div>
+                    </div>
+
+                    <!-- Native Adsterra Grid Card Insertion (Commented out until approved) -->
+                    <!-- <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card p-4 d-flex flex-column h-100 border-warning border-opacity-25" style="background: rgba(234, 179, 8, 0.03);">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="native-ad-badge">Adsterra Native</span>
+                                <i class="bi bi-box-arrow-up-right text-secondary small"></i>
+                            </div>
+                            <h2 class="h6 text-warning mb-2 fw-semibold">High-Performance Cloud VPS</h2>
+                            <p class="text-secondary small flex-grow-1">Deploy scalable NVMe cloud servers globally with instant provisioning & 99.99% SLA guarantee.</p>
+                            <a href="https://www.digitalocean.com" target="_blank" rel="nofollow sponsored" class="btn btn-sm btn-outline-warning w-100 mt-2">
+                                Learn More
+                            </a>
+                        </div>
+                    </div> -->
+
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('git-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-3 rounded-3 bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">
+                                    <i class="bi bi-git fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">Git Command Helper</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">CLI Generator</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Generate complex Git CLI commands for rebase, squash, feature branches, and force pulls.</p>
+                            <span class="text-danger small fw-semibold">Generate Commands &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('jwt-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-3 rounded-3 bg-info bg-opacity-10 text-info border border-info border-opacity-25">
+                                    <i class="bi bi-key fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">JWT Decoder</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">Token Inspector</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Decode JSON Web Tokens instantly to view headers and claims without sending data anywhere.</p>
+                            <span class="text-info small fw-semibold">Decode JWT &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('regex-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-3 rounded-3 bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">
+                                    <i class="bi bi-regex fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">Regex Tester</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">Pattern Matcher</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Test and evaluate Regular Expressions in real-time with global and multiline flag controls.</p>
+                            <span class="text-warning small fw-semibold">Test Patterns &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('base64-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-3 rounded-3 bg-light bg-opacity-10 text-light border border-light border-opacity-25">
+                                    <i class="bi bi-shield-lock fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">Base64 Encoder</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">Encode & Decode</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Quickly encode raw strings or decode base64 payloads locally in your browser.</p>
+                            <span class="text-light small fw-semibold">Base64 Tool &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('hash-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-3 rounded-3 bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                                    <i class="bi bi-hash fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">SHA-256 Hash</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">Crypto Generator</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Compute secure cryptographic SHA-256 hashes using browser Web Crypto APIs.</p>
+                            <span class="text-success small fw-semibold">Hash Text &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('cron-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="p-3 rounded-3 bg-secondary bg-opacity-10 text-light border border-secondary border-opacity-25">
+                                    <i class="bi bi-clock-history fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">Cron Explainer</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">Syntax Parser</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Translate cryptic 5-part cron syntax schedules into readable plain English descriptions.</p>
+                            <span class="text-light small fw-semibold">Explain Cron &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="formatter-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-code-slash text-success"></i>
+                            <h2 class="h6 mb-0 text-light fw-semibold">Code Formatter & Smart Python Splitter</h2>
+                        </div>
+                        <select id="codeLangSelect" class="form-select form-select-sm w-auto">
+                            <option value="python">Python (With Statement Splitter)</option>
+                            <option value="json">JSON</option>
+                            <option value="html">HTML</option>
+                            <option value="js">JavaScript / Java / C++</option>
+                            <option value="sql">SQL</option>
+                        </select>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label small text-secondary">Raw Input Code</label>
+                                <textarea id="codeFormatterInput" class="form-control code-font" rows="10" placeholder="Paste single-line or unformatted code here..."></textarea>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label small text-secondary">Formatted Output</label>
+                                <textarea id="codeFormatterOutput" class="form-control code-font" rows="10" readonly placeholder="Result will appear here..."></textarea>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button id="btnFormatCode" class="btn btn-accent"><i class="bi bi-magic me-1"></i> Format Code</button>
+                            <button id="btnMinifyCode" class="btn btn-outline-secondary"><i class="bi bi-arrows-angle-contract me-1"></i> Minify</button>
+                            <button id="btnCopyCode" class="btn btn-outline-secondary"><i class="bi bi-clipboard me-1"></i> Copy Output</button>
+                            <button id="btnClearCode" class="btn btn-outline-danger ms-auto"><i class="bi bi-trash me-1"></i> Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="diff-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-file-earmark-diff text-success"></i>
+                            <h2 class="h6 mb-0 text-light fw-semibold">GitHub-Style Code Diff Checker</h2>
+                        </div>
+                        <span class="badge bg-secondary bg-opacity-25 text-secondary">3-Line Context Collapsing</span>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label small text-secondary">Original Code</label>
+                                <textarea id="diffOriginal" class="form-control code-font" rows="8" placeholder="Paste original snippet..."></textarea>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label small text-secondary">Modified Code</label>
+                                <textarea id="diffModified" class="form-control code-font" rows="8" placeholder="Paste modified snippet..."></textarea>
+                            </div>
+                        </div>
+                        <button id="btnCompareDiff" class="btn btn-accent w-100 w-sm-auto mb-3">
+                            <i class="bi bi-search me-1"></i> Compare Differences
+                        </button>
+                        <div id="diffOutputContainer" class="d-none">
+                            <label class="form-label small text-secondary">GitHub-Style Diff Output</label>
+                            <div class="diff-container overflow-hidden">
+                                <table class="diff-table">
+                                    <tbody id="diffOutputTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="git-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
+                        <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-git text-danger me-2"></i>Git Command Generator</h2>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label small text-secondary">Feature / Branch Name</label>
+                                <input type="text" id="branchName" class="form-control" value="feature/login-system">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label small text-secondary">Target Branch</label>
+                                <input type="text" id="targetBranch" class="form-control" value="main">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small text-secondary">Action Operation</label>
+                                <select id="gitOp" class="form-select">
+                                    <option value="create_push">Create local branch & push to origin</option>
+                                    <option value="merge">Sync main & merge feature branch</option>
+                                    <option value="delete_both">Delete branch locally and remotely</option>
+                                    <option value="hard_reset">Hard reset branch to remote origin</option>
+                                    <option value="squash">Interactive rebase squash (last 3 commits)</option>
+                                    <option value="rename">Rename current branch</option>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="form-label small text-secondary">Generated Terminal Command</label>
+                        <div class="input-group">
+                            <input type="text" id="gitResult" class="form-control code-font bg-dark" readonly>
+                            <button id="btnCopyGit" class="btn btn-outline-secondary"><i class="bi bi-clipboard"></i> Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="jwt-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
+                        <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-key text-info me-2"></i>JWT Token Inspector</h2>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <label class="form-label small text-secondary">Encoded JWT String</label>
+                        <textarea id="jwtInput" class="form-control code-font mb-3" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+                        
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label small text-secondary">Header</label>
+                                <textarea id="jwtHeader" class="form-control code-font" rows="6" readonly></textarea>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label small text-secondary">Payload / Claims</label>
+                                <textarea id="jwtPayload" class="form-control code-font" rows="6" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="base64-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
+                        <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-shield-lock text-light me-2"></i>Base64 Encoder & Decoder</h2>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <div class="mb-3">
+                            <label class="form-label small text-secondary">Input Text</label>
+                            <textarea id="base64Input" class="form-control code-font" rows="4" placeholder="Enter text to encode or decode..."></textarea>
+                        </div>
+                        <div class="d-flex gap-2 mb-3">
+                            <button id="btnEncode64" class="btn btn-accent">Encode Base64</button>
+                            <button id="btnDecode64" class="btn btn-outline-secondary">Decode Base64</button>
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary">Output Result</label>
+                            <textarea id="base64Output" class="form-control code-font" rows="4" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="hash-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
+                        <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-hash text-success me-2"></i>SHA-256 Hash Generator</h2>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <div class="mb-3">
+                            <label class="form-label small text-secondary">Plaintext Input</label>
+                            <textarea id="hashInput" class="form-control code-font" rows="4" placeholder="Type text to generate SHA-256 hash in real-time..."></textarea>
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary">SHA-256 Digest Output</label>
+                            <input type="text" id="hashOutput" class="form-control code-font" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="regex-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
+                        <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-regex text-warning me-2"></i>Regex Evaluator</h2>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <div class="row g-2 mb-3">
+                            <div class="col-8 col-md-9">
+                                <label class="form-label small text-secondary">Pattern</label>
+                                <input type="text" id="regexPattern" class="form-control code-font" value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                            </div>
+                            <div class="col-4 col-md-3">
+                                <label class="form-label small text-secondary">Flags</label>
+                                <input type="text" id="regexFlags" class="form-control code-font" value="gm">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small text-secondary">Test String</label>
+                            <textarea id="regexInput" class="form-control code-font" rows="4">Hello World</textarea>
+                        </div>
+                        <label class="form-label small text-secondary">Match Results</label>
+                        <div id="regexMatches" class="p-3 border rounded-3 code-font bg-dark text-light" style="min-height: 80px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="cron-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
+                        <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-clock-history text-light me-2"></i>Cron Schedule Syntax Explainer</h2>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <label class="form-label small text-secondary">Cron Syntax Expression (5 Fields)</label>
+                        <input type="text" id="cronInput" class="form-control code-font mb-3" value="*/15 0 * * 1-5">
+                        <label class="form-label small text-secondary">Human Explanation</label>
+                        <textarea id="cronOutput" class="form-control code-font" rows="3" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel-content" id="uuid-panel">
+                <div class="glass-card">
+                    <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
+                        <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-ui-checks-grid text-success me-2"></i>UUID v4 Generator</h2>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <button id="btnGenUuid" class="btn btn-accent mb-3"><i class="bi bi-arrow-clockwise me-1"></i> Generate 5 New UUIDs</button>
+                        <textarea id="uuidOutput" class="form-control code-font" rows="6" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM NATIVE AD (Commented out until approved) -->
+            <!-- <div class="mt-4">
+                <div class="ad-container-leaderboard p-3 text-center">
+                    <span class="native-ad-badge">Sponsor</span>
+                    <span class="text-secondary small ms-2"><strong>JetBrains WebStorm:</strong> The smartest JavaScript & TypeScript IDE. Try free for 30 days.</span>
+                </div>
+            </div> -->
+
+        </main>
+
+        <footer class="text-center text-secondary py-3 border-top border-secondary border-opacity-10 mt-auto small">
+            &copy; 2026 ToolBreeze. Privacy-First Developer Tools.
+        </footer>
+    </div>
+
+    <!-- Adsterra Social Bar Floating Widget (Commented out until approved) -->
+    <!-- <div class="adsterra-social-bar p-3 d-none d-md-block" id="socialBarWidget">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="native-ad-badge">Adsterra Widget</span>
+            <button type="button" class="btn-close btn-close-white ms-auto" style="font-size: 0.65rem;" onclick="document.getElementById('socialBarWidget').remove()"></button>
+        </div>
+        <div class="d-flex align-items-center gap-2 mt-2">
+            <i class="bi bi-bell-fill text-warning fs-5"></i>
+            <div>
+                <strong class="text-light d-block small">New API Monitoring Suite</strong>
+                <span class="text-secondary" style="font-size: 0.75rem;">Track downtime & latency globally in real-time.</span>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- HISTORY DRAWER -->
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="historyDrawer">
+        <div class="offcanvas-header border-bottom border-secondary border-opacity-25">
+            <h5 class="offcanvas-title h6 text-light"><i class="bi bi-clock-history text-success me-2"></i>Local History</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p class="text-secondary small">Click any past entry to re-open the tool and restore your input/output data.</p>
+            <ul id="historyList" class="list-group list-group-flush mb-3"></ul>
+            <button id="btnClearHistory" class="btn btn-sm btn-outline-danger w-100"><i class="bi bi-trash me-1"></i> Clear Saved History</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+            const tabPanels = document.querySelectorAll('.tab-panel-content');
+            const sidebar = document.getElementById('sidebar');
+
+            // Safe Event Listener Helper
+            function on(id, event, callback) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener(event, callback);
+                }
+            }
+
+            // Global Tab Switcher Function
+            window.switchTab = function(targetId) {
+                const activeBtn = document.querySelector(`[data-target="${targetId}"]`);
+
+                sidebarBtns.forEach(b => b.classList.remove('active'));
+                tabPanels.forEach(p => p.classList.remove('active'));
+
+                if (activeBtn) activeBtn.classList.add('active');
+                
+                const targetPanel = document.getElementById(targetId);
+                if (targetPanel) targetPanel.classList.add('active');
+                
+                document.title = activeBtn ? (activeBtn.getAttribute('data-title') || 'ToolBreezePro') : 'ToolBreezePro';
+                window.location.hash = targetId;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            // Explicit Logo Click Handlers to trigger switchTab('home-panel')
+            const logoBrand = document.getElementById('sidebarLogoLink');
+            const headerLogo = document.getElementById('headerLogoLink');
+
+            [logoBrand, headerLogo].forEach(el => {
+                if (el) {
+                    el.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        switchTab('home-panel');
+                        if (sidebar && window.innerWidth < 992) sidebar.classList.remove('show');
+                    });
+                }
+            });
+
+            // Sidebar Button Clicks
+            sidebarBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    switchTab(targetId);
+                    if (sidebar && window.innerWidth < 992) sidebar.classList.remove('show');
+                });
+            });
+
+            // Hash Handling
+            const currentHash = window.location.hash.replace('#', '');
+            if (currentHash) {
+                switchTab(currentHash);
+            } else {
+                switchTab('home-panel');
+            }
+
+            on('toggleSidebar', 'click', () => sidebar?.classList.add('show'));
+            on('closeSidebar', 'click', () => sidebar?.classList.remove('show'));
+
+            // INTERACTIVE LOCAL STORAGE HISTORY
+            function saveHistory(toolName, content, rawInput = '') {
+                let history = JSON.parse(localStorage.getItem('dev_history') || '[]');
+                history.unshift({ 
+                    tool: toolName, 
+                    text: content, 
+                    rawInput: rawInput,
+                    preview: content.slice(0, 45) + (content.length > 45 ? '...' : ''), 
+                    date: new Date().toLocaleTimeString() 
+                });
+                if (history.length > 15) history.pop();
+                localStorage.setItem('dev_history', JSON.stringify(history));
+                renderHistory();
+            }
+
+            function renderHistory() {
+                const list = document.getElementById('historyList');
+                if (!list) return;
+
+                let history = JSON.parse(localStorage.getItem('dev_history') || '[]');
+                list.innerHTML = history.length === 0 ? '<li class="list-group-item bg-transparent text-secondary">No history recorded yet.</li>' : '';
+
+                const toolToPanelMap = {
+                    'Git Helper': 'git-panel',
+                    'Code Diff': 'diff-panel',
+                    'Code Formatter': 'formatter-panel',
+                    'Base64 Encode': 'base64-panel',
+                    'Base64 Decode': 'base64-panel',
+                    'Hash Generator': 'hash-panel',
+                    'JWT Decoder': 'jwt-panel',
+                    'Regex Tester': 'regex-panel',
+                    'Cron Explainer': 'cron-panel',
+                    'UUID Generator': 'uuid-panel'
+                };
+
+                history.forEach((item) => {
+                    const baseToolKey = Object.keys(toolToPanelMap).find(t => item.tool.startsWith(t)) || '';
+                    const targetPanel = toolToPanelMap[baseToolKey] || '';
+
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item bg-transparent text-light border-secondary border-opacity-25 history-item-interactive rounded mb-1';
+                    
+                    li.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-success fw-semibold">${item.tool}</small>
+                            <span class="text-secondary" style="font-size: 0.75rem;">${item.date}</span>
+                        </div>
+                        <div class="text-truncate text-secondary small mt-1">${item.preview || item.text}</div>
+                    `;
+
+                    if (targetPanel) {
+                        li.addEventListener('click', () => {
+                            switchTab(targetPanel);
+
+                            if (targetPanel === 'formatter-panel') {
+                                if (item.rawInput) {
+                                    const fmtIn = document.getElementById('codeFormatterInput');
+                                    if (fmtIn) fmtIn.value = item.rawInput;
+                                }
+                                const fmtOut = document.getElementById('codeFormatterOutput');
+                                if (fmtOut) fmtOut.value = item.text;
+                            } else if (targetPanel === 'git-panel') {
+                                const gitRes = document.getElementById('gitResult');
+                                if (gitRes) gitRes.value = item.text;
+                            } else if (targetPanel === 'base64-panel') {
+                                if (item.rawInput) {
+                                    const bIn = document.getElementById('base64Input');
+                                    if (bIn) bIn.value = item.rawInput;
+                                }
+                                const bOut = document.getElementById('base64Output');
+                                if (bOut) bOut.value = item.text;
+                            } else if (targetPanel === 'hash-panel') {
+                                if (item.rawInput) {
+                                    const hIn = document.getElementById('hashInput');
+                                    if (hIn) hIn.value = item.rawInput;
+                                }
+                                const hOut = document.getElementById('hashOutput');
+                                if (hOut) hOut.value = item.text;
+                            } else if (targetPanel === 'jwt-panel') {
+                                if (item.rawInput) {
+                                    const jIn = document.getElementById('jwtInput');
+                                    if (jIn) {
+                                        jIn.value = item.rawInput;
+                                        jIn.dispatchEvent(new Event('input'));
+                                    }
+                                }
+                            } else if (targetPanel === 'uuid-panel') {
+                                const uOut = document.getElementById('uuidOutput');
+                                if (uOut) uOut.value = item.text;
+                            }
+
+                            const drawerEl = document.getElementById('historyDrawer');
+                            if (drawerEl && window.bootstrap) {
+                                const instance = bootstrap.Offcanvas.getInstance(drawerEl);
+                                if (instance) instance.hide();
+                            }
+                        });
+                    }
+
+                    list.appendChild(li);
+                });
+            }
+
+            on('btnClearHistory', 'click', () => {
+                localStorage.removeItem('dev_history');
+                renderHistory();
+            });
+
+            renderHistory();
+
+            // GIT HELPER LOGIC
+            const branchInput = document.getElementById('branchName');
+            const targetInput = document.getElementById('targetBranch');
+            const opSelect = document.getElementById('gitOp');
+            const resultInput = document.getElementById('gitResult');
+
+            function generateGitCmd() {
+                if (!branchInput || !targetInput || !opSelect || !resultInput) return;
+                const branch = branchInput.value.trim() || 'feature-branch';
+                const target = targetInput.value.trim() || 'main';
+                let cmd = '';
+                switch(opSelect.value) {
+                    case 'create_push': cmd = `git checkout -b ${branch} && git push -u origin ${branch}`; break;
+                    case 'merge': cmd = `git checkout ${target} && git pull origin ${target} && git merge ${branch}`; break;
+                    case 'delete_both': cmd = `git branch -d ${branch} && git push origin --delete ${branch}`; break;
+                    case 'hard_reset': cmd = `git fetch origin && git reset --hard origin/${target}`; break;
+                    case 'squash': cmd = `git rebase -i HEAD~3`; break;
+                    case 'rename': cmd = `git branch -m ${branch}`; break;
+                }
+                resultInput.value = cmd;
+            }
+            branchInput?.addEventListener('input', generateGitCmd);
+            targetInput?.addEventListener('input', generateGitCmd);
+            opSelect?.addEventListener('change', generateGitCmd);
+            on('btnCopyGit', 'click', () => {
+                if (resultInput) {
+                    navigator.clipboard.writeText(resultInput.value);
+                    saveHistory('Git Helper', resultInput.value);
+                }
+            });
+            generateGitCmd();
+
+            // GITHUB-STYLE DIFF ENGINE WITH 3-LINE CONTEXT COLLAPSING
+            on('btnCompareDiff', 'click', function() {
+                const origEl = document.getElementById('diffOriginal');
+                const modEl = document.getElementById('diffModified');
+                if (!origEl || !modEl) return;
+
+                const orig = origEl.value.split('\n');
+                const mod = modEl.value.split('\n');
+                const tableBody = document.getElementById('diffOutputTable');
+                if (!tableBody) return;
+
+                tableBody.innerHTML = '';
+                document.getElementById('diffOutputContainer')?.classList.remove('d-none');
+
+                const maxLines = Math.max(orig.length, mod.length);
+                let rawLines = [];
+
+                for (let i = 0; i < maxLines; i++) {
+                    const origVal = orig[i];
+                    const modVal = mod[i];
+
+                    if (origVal === modVal) {
+                        if (origVal !== undefined) rawLines.push({ type: 'same', text: origVal, origNum: i + 1, modNum: i + 1 });
+                    } else {
+                        if (origVal !== undefined) rawLines.push({ type: 'del', text: origVal, origNum: i + 1, modNum: '' });
+                        if (modVal !== undefined) rawLines.push({ type: 'add', text: modVal, origNum: '', modNum: i + 1 });
+                    }
+                }
+
+                // Group changes and collapse large unchanged sections (keep 3-line context)
+                let blockId = 0;
+                let i = 0;
+
+                while (i < rawLines.length) {
+                    if (rawLines[i].type !== 'same') {
+                        renderRow(tableBody, rawLines[i]);
+                        i++;
+                    } else {
+                        let startSame = i;
+                        while (i < rawLines.length && rawLines[i].type === 'same') {
+                            i++;
+                        }
+                        let sameCount = i - startSame;
+
+                        if (sameCount > 6) {
+                            for (let k = startSame; k < startSame + 3; k++) renderRow(tableBody, rawLines[k]);
+
+                            const hiddenCount = sameCount - 6;
+                            blockId++;
+                            const currentBlockId = `diff-fold-${blockId}`;
+
+                            const foldHeaderTr = document.createElement('tr');
+                            foldHeaderTr.innerHTML = `
+                                <td colspan="3" class="p-0">
+                                    <div class="diff-unfold-bar" onclick="document.querySelectorAll('.${currentBlockId}').forEach(r => r.classList.toggle('d-none'))">
+                                        <i class="bi bi-unfold me-1"></i> Expand ${hiddenCount} hidden unchanged lines...
+                                    </div>
+                                </td>
+                            `;
+                            tableBody.appendChild(foldHeaderTr);
+
+                            for (let k = startSame + 3; k < i - 3; k++) {
+                                renderRow(tableBody, rawLines[k], `${currentBlockId} d-none`);
+                            }
+
+                            for (let k = i - 3; k < i; k++) renderRow(tableBody, rawLines[k]);
+                        } else {
+                            for (let k = startSame; k < i; k++) renderRow(tableBody, rawLines[k]);
+                        }
+                    }
+                }
+
+                saveHistory('Code Diff', `Diff comparison completed (${maxLines} lines processed)`);
+            });
+
+            function renderRow(container, lineObj, extraClass = '') {
+                const tr = document.createElement('tr');
+                if (extraClass) tr.className = extraClass;
+
+                let symbol = ' ';
+                let cssClass = 'diff-line-same';
+                if (lineObj.type === 'add') { symbol = '+'; cssClass = 'diff-line-add'; }
+                if (lineObj.type === 'del') { symbol = '-'; cssClass = 'diff-line-del'; }
+
+                tr.innerHTML = `
+                    <td class="diff-line-num">${lineObj.origNum || ''}</td>
+                    <td class="diff-line-num">${lineObj.modNum || ''}</td>
+                    <td class="${cssClass}">${symbol} ${escapeHtml(lineObj.text)}</td>
+                `;
+                container.appendChild(tr);
+            }
+
+            function escapeHtml(str) {
+                return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            }
+
+            // MULTI-LANGUAGE CODE FORMATTER & SMART PYTHON STATEMENT SPLITTER
+            const codeInput = document.getElementById('codeFormatterInput');
+            const codeOutput = document.getElementById('codeFormatterOutput');
+            const codeLang = document.getElementById('codeLangSelect');
+
+            if (codeInput) {
+                codeInput.value = `import base64\nimport os\n\nrandom_b64 = base64.b64encode(os.urandom(16)).decode('utf-8')print(random_b64)`;
+            }
+
+            function formatHTML(code) {
+                let formatted = '', indent = 0;
+                const tokens = code.replace(/</g, '~%~<').replace(/>/g, '>~%~').split('~%~');
+                tokens.forEach(token => {
+                    const trimmed = token.trim();
+                    if (!trimmed) return;
+                    if (trimmed.startsWith('</')) indent = Math.max(0, indent - 1);
+                    formatted += '  '.repeat(indent) + trimmed + '\n';
+                    if (trimmed.startsWith('<') && !trimmed.startsWith('</') && !trimmed.endsWith('/>') && !trimmed.startsWith('<!')) {
+                        indent++;
+                    }
+                });
+                return formatted.trim();
+            }
+
+            function formatBracedCode(code) {
+                let formatted = '', indent = 0;
+                const lines = code.replace(/\{/g, '{\n').replace(/\}/g, '\n}\n').replace(/;/g, ';\n').split('\n');
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (!trimmed) return;
+                    if (trimmed.startsWith('}')) indent = Math.max(0, indent - 1);
+                    formatted += '    '.repeat(indent) + trimmed + '\n';
+                    if (trimmed.endsWith('{')) indent++;
+                });
+                return formatted.trim();
+            }
+
+            function formatPython(code) {
+                if (!code) return '';
+
+                let normalized = code.replace(/;+/g, '\n');
+                const pythonKeywords = [
+                    'import', 'from', 'def', 'class', 'if', 'elif', 'else', 'try', 
+                    'except', 'finally', 'for', 'while', 'print', 'return', 'raise',
+                    'with', 'assert', 'pass', 'break', 'continue'
+                ];
+
+                const pattern = new RegExp(`([\\)\\'\\"])\\s*(${pythonKeywords.join('|')})\\b`, 'g');
+                normalized = normalized.replace(pattern, '$1\n$2');
+
+                let lines = normalized.split('\n');
+                let formattedLines = [];
+                let currentIndent = 0;
+
+                lines.forEach(rawLine => {
+                    let trimmed = rawLine.trim();
+                    if (!trimmed) {
+                        formattedLines.push('');
+                        return;
+                    }
+
+                    if (trimmed.startsWith('#')) {
+                        formattedLines.push('    '.repeat(currentIndent) + trimmed);
+                        return;
+                    }
+
+                    if (/^(else|elif\b|except\b|finally):/.test(trimmed)) {
+                        let dedented = Math.max(0, currentIndent - 1);
+                        formattedLines.push('    '.repeat(dedented) + trimmed);
+                    } else {
+                        formattedLines.push('    '.repeat(currentIndent) + trimmed);
+                    }
+
+                    if (trimmed.endsWith(':') && !trimmed.startsWith('#')) {
+                        currentIndent++;
+                    }
+                    
+                    if (/^(return|pass|break|raise)\b/.test(trimmed) && currentIndent > 0) {
+                        currentIndent = Math.max(0, currentIndent - 1);
+                    }
+                });
+
+                return formattedLines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+            }
+
+            on('btnFormatCode', 'click', () => {
+                if (!codeInput || !codeOutput || !codeLang) return;
+                const val = codeInput.value.trim();
+                if (!val) return;
+                try {
+                    let formatted = '';
+                    const lang = codeLang.value;
+
+                    if (lang === 'json') {
+                        formatted = JSON.stringify(JSON.parse(val), null, 4);
+                    } else if (lang === 'html') {
+                        formatted = formatHTML(val);
+                    } else if (lang === 'python') {
+                        formatted = formatPython(val);
+                    } else if (lang === 'sql') {
+                        formatted = val.replace(/\b(SELECT|FROM|WHERE|JOIN|LEFT JOIN|RIGHT JOIN|GROUP BY|ORDER BY|HAVING|LIMIT|INSERT|UPDATE|DELETE)\b/gi, '\n$1');
+                    } else {
+                        formatted = formatBracedCode(val);
+                    }
+
+                    codeOutput.value = formatted;
+                    saveHistory(`Code Formatter (${lang.toUpperCase()})`, formatted, val);
+                } catch(e) {
+                    codeOutput.value = `Error formatting ${codeLang.value.toUpperCase()} code:\n` + e.message;
+                }
+            });
+
+            on('btnMinifyCode', 'click', () => {
+                if (!codeInput || !codeOutput || !codeLang) return;
+                const val = codeInput.value.trim();
+                if (!val) return;
+                try {
+                    if (codeLang.value === 'json') {
+                        codeOutput.value = JSON.stringify(JSON.parse(val));
+                    } else {
+                        codeOutput.value = val.replace(/\s+/g, ' ').replace(/\s*([\{\}\:\;\,\<])\s*/g, '$1').trim();
+                    }
+                } catch(e) {
+                    codeOutput.value = 'Error minifying code: ' + e.message;
+                }
+            });
+
+            on('btnCopyCode', 'click', () => {
+                if (codeOutput) navigator.clipboard.writeText(codeOutput.value);
+            });
+            on('btnClearCode', 'click', () => { 
+                if (codeInput) codeInput.value = ''; 
+                if (codeOutput) codeOutput.value = ''; 
+            });
+
+            // BASE64 LOGIC
+            const b64In = document.getElementById('base64Input');
+            const b64Out = document.getElementById('base64Output');
+            on('btnEncode64', 'click', () => {
+                if (!b64In || !b64Out) return;
+                b64Out.value = btoa(b64In.value);
+                saveHistory('Base64 Encode', b64Out.value, b64In.value);
+            });
+            on('btnDecode64', 'click', () => {
+                if (!b64In || !b64Out) return;
+                try { 
+                    b64Out.value = atob(b64In.value); 
+                    saveHistory('Base64 Decode', b64Out.value, b64In.value);
+                } catch(e) { 
+                    b64Out.value = "Invalid Base64 format"; 
+                }
+            });
+
+            // HASH LOGIC
+            const hashIn = document.getElementById('hashInput');
+            const hashOut = document.getElementById('hashOutput');
+            hashIn?.addEventListener('input', async () => {
+                if (!hashIn || !hashOut) return;
+                if (!hashIn.value) { hashOut.value = ''; return; }
+                const msgUint8 = new TextEncoder().encode(hashIn.value);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+                hashOut.value = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+                saveHistory('Hash Generator', hashOut.value, hashIn.value);
+            });
+
+            // JWT LOGIC
+            document.getElementById('jwtInput')?.addEventListener('input', function() {
+                const token = this.value.trim();
+                const headerOut = document.getElementById('jwtHeader');
+                const payloadOut = document.getElementById('jwtPayload');
+                if (!headerOut || !payloadOut) return;
+                if (!token) { headerOut.value = ''; payloadOut.value = ''; return; }
+                try {
+                    const parts = token.split('.');
+                    const decode = str => JSON.stringify(JSON.parse(atob(str.replace(/-/g, '+').replace(/_/g, '/'))), null, 4);
+                    headerOut.value = decode(parts[0]);
+                    payloadOut.value = decode(parts[1]);
+                    saveHistory('JWT Decoder', payloadOut.value, token);
+                } catch (e) { headerOut.value = "Error parsing header"; payloadOut.value = e.message; }
+            });
+
+            // REGEX LOGIC
+            function testRegex() {
+                const patEl = document.getElementById('regexPattern');
+                const flgEl = document.getElementById('regexFlags');
+                const txtEl = document.getElementById('regexInput');
+                const output = document.getElementById('regexMatches');
+                if (!patEl || !flgEl || !txtEl || !output) return;
+
+                const pattern = patEl.value;
+                const flags = flgEl.value;
+                const text = txtEl.value;
+                if (!pattern || !text) { output.innerHTML = '<em>No input</em>'; return; }
+                try {
+                    const matches = [...text.matchAll(new RegExp(pattern, flags))];
+                    output.innerHTML = matches.length === 0 ? '<span class="text-secondary">No matches found.</span>' : 
+                        matches.map((m, i) => `<div><strong>Match ${i + 1}:</strong> ${escapeHtml(m[0])}</div>`).join('');
+                } catch (e) { output.innerHTML = `<span class="text-danger">${escapeHtml(e.message)}</span>`; }
+            }
+            document.getElementById('regexPattern')?.addEventListener('input', testRegex);
+            document.getElementById('regexFlags')?.addEventListener('input', testRegex);
+            document.getElementById('regexInput')?.addEventListener('input', testRegex);
+
+            // CRON LOGIC
+            const cronIn = document.getElementById('cronInput');
+            const cronOut = document.getElementById('cronOutput');
+            function parseCron() {
+                if (!cronIn || !cronOut) return;
+                const parts = cronIn.value.trim().split(/\s+/);
+                if (parts.length !== 5) { cronOut.value = "Requires 5 fields (minute hour day month day-of-week)"; return; }
+                cronOut.value = `Runs at minute [${parts[0]}], hour [${parts[1]}], day-of-month [${parts[2]}], month [${parts[3]}], day-of-week [${parts[4]}].`;
+            }
+            cronIn?.addEventListener('input', parseCron);
+            if (cronIn) parseCron();
+
+            // UUID LOGIC
+            on('btnGenUuid', 'click', function() {
+                const uuids = Array.from({ length: 5 }, () => crypto.randomUUID());
+                const uOut = document.getElementById('uuidOutput');
+                if (uOut) uOut.value = uuids.join('\n');
+                saveHistory('UUID Generator', uuids.join('\n'));
+            });
+
+            // Initial format run
+            document.getElementById('btnFormatCode')?.click();
+        });
+    </script>
+</body>
+</html>
