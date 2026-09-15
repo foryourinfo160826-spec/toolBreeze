@@ -345,30 +345,6 @@
             overflow: hidden;
         }
 
-        .adsterra-social-bar {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1050;
-            max-width: 320px;
-            background: rgba(15, 22, 35, 0.95);
-            border: 1px solid var(--accent-color);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            animation: slideInUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .native-ad-badge {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            background: rgba(234, 179, 8, 0.2);
-            color: #fde047;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 700;
-        }
-
         .history-item-interactive {
             cursor: pointer;
             transition: background-color 0.2s ease;
@@ -411,6 +387,9 @@
             <button class="sidebar-btn mb-1" data-target="git-panel" data-title="Git CLI Helper - devZtoolkit">
                 <i class="bi bi-git"></i>Git Command Helper
             </button>
+            <button class="sidebar-btn mb-1" data-target="api-panel" data-title="API Client & Tester - devZtoolkit">
+                <i class="bi bi-send"></i>API Tester
+            </button>
 
             <div class="nav-category mt-2">Data & Security</div>
             <button class="sidebar-btn mb-1" data-target="jwt-panel" data-title="JWT Decoder - devZtoolkit">
@@ -436,7 +415,7 @@
             </button>
         </nav>
 
-        <!-- Sidebar Vertical Ad Slot (Commented out until approved) -->
+        <!-- Sidebar Vertical Ad Slot -->
         <div class="ad-container-leaderboard my-3 p-2 rounded bg-dark border border-secondary border-opacity-25 d-flex justify-content-center align-items-center position-relative overflow-hidden"
             style="min-height: 90px;">
             <span class="badge bg-secondary position-absolute top-0 start-0 m-1 opacity-50"
@@ -452,11 +431,6 @@
             </script>
             <script src="https://www.highrevenueformat.com/10a42677395195e27385edbb25f822fd/invoke.js"></script>
         </div>
-        <!-- <div class="p-3 border-top border-secondary border-opacity-10">
-            <div class="ad-container-leaderboard py-3 text-center d-flex flex-column gap-1" style="min-height: 180px;">
-                
-            </div>
-        </div> -->
     </aside>
 
     <div id="main-wrapper">
@@ -475,38 +449,36 @@
                 </a>
             </div>
             <div class="d-flex align-items-center gap-2">
-                <span class="navbar-text small text-secondary d-none d-md-inline">
-                    Client-Side
-                </span>
                 <button class="btn btn-sm btn-outline-secondary" id="toggleHistory" data-bs-toggle="offcanvas"
-                    data-bs-target="#historyDrawer">
-                    <i class="bi bi-clock-history me-1"></i> History
+                    data-bs-target="#historyDrawer" title="History">
+                    <i class="bi bi-clock-history"></i>
+                    <span class="d-none d-sm-inline ms-1">History</span>
                 </button>
             </div>
         </header>
 
         <main class="container-fluid my-4 px-3 px-md-4 flex-grow-1">
 
+            <!-- Leaderboard Ad Slot -->
+            <div class="ad-container-leaderboard my-3 p-2 rounded bg-dark border border-secondary border-opacity-25 d-flex justify-content-center align-items-center position-relative overflow-hidden"
+                style="min-height: 90px;">
+                <span class="badge bg-secondary position-absolute top-0 start-0 m-1 opacity-50"
+                    style="font-size: 9px;">Sponsored</span>
+                <script>
+                    atOptions = {
+                        'key': '962323db58c2b1003c089051c40d388f',
+                        'format': 'iframe',
+                        'height': 90,
+                        'width': 728,
+                        'params': {}
+                    };
+                </script>
+                <script src="https://www.highrevenueformat.com/962323db58c2b1003c089051c40d388f/invoke.js"></script>
+            </div>
+
+
             <!-- MAIN LANDING DASHBOARD (HOME) -->
             <div class="tab-panel-content active" id="home-panel">
-                <!-- Leaderboard Ad Slot (Commented out until approved) -->
-                <div class="ad-container-leaderboard my-3 p-2 rounded bg-dark border border-secondary border-opacity-25 d-flex justify-content-center align-items-center position-relative overflow-hidden"
-                    style="min-height: 90px;">
-                    <span class="badge bg-secondary position-absolute top-0 start-0 m-1 opacity-50"
-                        style="font-size: 9px;">Sponsored</span>
-                    <script>
-                        atOptions = {
-                            'key': '962323db58c2b1003c089051c40d388f',
-                            'format': 'iframe',
-                            'height': 90,
-                            'width': 728,
-                            'params': {}
-                        };
-                    </script>
-                    <script src="https://www.highrevenueformat.com/962323db58c2b1003c089051c40d388f/invoke.js"></script>
-
-                </div>
-
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h1 class="h4 text-light fw-bold mb-1">Developer Utilities Dashboard</h1>
@@ -515,8 +487,25 @@
                     </div>
                 </div>
 
-                <!-- Grid of Tool Selection Cards with Integrated Native Adsterra Ads -->
+                <!-- Grid of Tool Selection Cards -->
                 <div class="row g-3">
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('api-panel')">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div
+                                    class="p-3 rounded-3 bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                                    <i class="bi bi-send fs-4"></i>
+                                </div>
+                                <div>
+                                    <h2 class="h6 mb-1 text-light fw-semibold">API Tester</h2>
+                                    <span class="badge bg-secondary bg-opacity-25 text-secondary">REST Client</span>
+                                </div>
+                            </div>
+                            <p class="text-secondary small flex-grow-1">Test REST endpoints, inspect response status
+                                codes, and export Postman collections.</p>
+                            <span class="text-success small fw-semibold">Open API Tester &rarr;</span>
+                        </div>
+                    </div>
                     <div class="col-12 col-md-6 col-xl-4">
                         <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('formatter-panel')">
                             <div class="d-flex align-items-center gap-3 mb-3">
@@ -554,21 +543,6 @@
                             <span class="text-primary small fw-semibold">Compare Diff &rarr;</span>
                         </div>
                     </div>
-
-                    <!-- Native Adsterra Grid Card Insertion (Commented out until approved) -->
-                    <!-- <div class="col-12 col-md-6 col-xl-4">
-                        <div class="glass-card p-4 d-flex flex-column h-100 border-warning border-opacity-25" style="background: rgba(234, 179, 8, 0.03);">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="native-ad-badge">Adsterra Native</span>
-                                <i class="bi bi-box-arrow-up-right text-secondary small"></i>
-                            </div>
-                            <h2 class="h6 text-warning mb-2 fw-semibold">High-Performance Cloud VPS</h2>
-                            <p class="text-secondary small flex-grow-1">Deploy scalable NVMe cloud servers globally with instant provisioning & 99.99% SLA guarantee.</p>
-                            <a href="https://www.digitalocean.com" target="_blank" rel="nofollow sponsored" class="btn btn-sm btn-outline-warning w-100 mt-2">
-                                Learn More
-                            </a>
-                        </div>
-                    </div> -->
 
                     <div class="col-12 col-md-6 col-xl-4">
                         <div class="glass-card tool-card p-4 d-flex flex-column" onclick="switchTab('git-panel')">
@@ -681,22 +655,24 @@
                 </div>
             </div>
 
+            <!-- FORMATTER PANEL -->
             <div class="tab-panel-content" id="formatter-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div
-                        class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4 d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-code-slash text-success"></i>
+                        class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4 d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+                        <div class="d-flex align-items-center gap-2 w-100">
+                            <i class="bi bi-code-slash text-success flex-shrink-0 fs-5"></i>
                             <h2 class="h6 mb-0 text-light fw-semibold">Code Formatter & Smart Python Splitter</h2>
                         </div>
-                        <select id="codeLangSelect" class="form-select form-select-sm w-auto">
-                            <option value="python">Python (With Statement Splitter)</option>
+                        <select id="codeLangSelect" class="form-select form-select-sm w-100 w-md-auto">
                             <option value="json">JSON</option>
                             <option value="html">HTML</option>
+                            <option value="python">Python</option>
                             <option value="js">JavaScript / Java / C++</option>
                             <option value="sql">SQL</option>
                         </select>
                     </div>
+
                     <div class="card-body p-3 p-md-4">
                         <div class="row g-3 mb-3">
                             <div class="col-12 col-lg-6">
@@ -716,23 +692,103 @@
                             <button id="btnMinifyCode" class="btn btn-outline-secondary"><i
                                     class="bi bi-arrows-angle-contract me-1"></i> Minify</button>
                             <button id="btnCopyCode" class="btn btn-outline-secondary"><i
-                                    class="bi bi-clipboard me-1"></i> Copy Output</button>
+                                    class="bi bi-clipboard me-1"></i> Copy</button>
                             <button id="btnClearCode" class="btn btn-outline-danger ms-auto"><i
                                     class="bi bi-trash me-1"></i> Clear</button>
                         </div>
                     </div>
                 </div>
+
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About Free Online Code Formatter</h3>
+                    <p class="mb-0">Format and beautify unformatted, compressed, or single-line code blocks instantly.
+                        This tool handles Python syntax adjustments, JSON indentation, HTML structure formatting, and
+                        SQL query alignment entirely client-side for absolute code privacy.</p>
+                </div>
             </div>
 
+            <!-- API TESTER PANEL -->
+            <div class="tab-panel-content" id="api-panel">
+                <div class="glass-card mb-4">
+                    <div
+                        class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-send text-success fs-5"></i>
+                            <h2 class="h6 mb-0 text-light fw-semibold">Browser REST API Tester</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-3 p-md-4">
+                        <!-- URL & Method Bar -->
+                        <div class="input-group mb-3">
+                            <select id="apiMethod" class="form-select flex-grow-0" style="width: 110px;">
+                                <option value="GET">GET</option>
+                                <option value="POST" selected>POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                            <input type="text" id="apiUrl" class="form-control code-font"
+                                placeholder="https://api.example.com/v1/endpoint">
+                            <button id="btnSendApi" class="btn btn-accent"><i class="bi bi-play-fill me-1"></i>
+                                Send</button>
+                        </div>
+
+                        <!-- Request Body & Headers Row -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label small text-secondary">Request Headers (JSON format)</label>
+                                <textarea id="apiHeaders" class="form-control code-font" rows="6"
+                                    placeholder='{"Authorization": "Bearer token_abc123", "X-Custom-Header": "value"}'></textarea>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label small text-secondary">Request Body (JSON / Raw)</label>
+                                <textarea id="apiRequestBody" class="form-control code-font" rows="6"
+                                    placeholder='{"title": "foo", "body": "bar", "userId": 1}'></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small text-secondary">Response Output (<span id="apiStatus"
+                                        class="text-warning">Status: Idle</span>)</label>
+                                <textarea id="ApiResponseOutput" class="form-control code-font" rows="6" readonly
+                                    placeholder="API response will appear here..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Sharing & Export Action Bar -->
+                        <div class="d-flex flex-wrap gap-2 pt-2 border-top border-secondary border-opacity-10">
+                            <button id="btnExportApiPostman" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-file-earmark-code"></i>
+                                <span class="d-none d-sm-inline ms-1">Export Postman Collection</span>
+                            </button>
+                            <button id="btnShareEncryptedApi" class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-shield-lock"></i>
+                                <span class="d-none d-sm-inline ms-1">Share</span>
+                            </button>
+                            <button id="btnClearApi" class="btn btn-outline-danger btn-sm ms-auto">
+                                <i class="bi bi-trash"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About Free Online API Tester</h3>
+                    <p class="mb-0">Test REST endpoints, inspect HTTP status codes, and analyze JSON responses instantly
+                        inside your browser. Export any request layout directly to a Postman v2.1 collection or share
+                        configurations safely via URL parameters.</p>
+                </div>
+            </div>
+
+            <!-- DIFF PANEL -->
             <div class="tab-panel-content" id="diff-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div
                         class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-2">
                             <i class="bi bi-file-earmark-diff text-success"></i>
                             <h2 class="h6 mb-0 text-light fw-semibold">GitHub-Style Code Diff Checker</h2>
                         </div>
-                        <span class="badge bg-secondary bg-opacity-25 text-secondary">3-Line Context Collapsing</span>
                     </div>
                     <div class="card-body p-3 p-md-4">
                         <div class="row g-3 mb-3">
@@ -760,10 +816,18 @@
                         </div>
                     </div>
                 </div>
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About GitHub-Style Code Diff Checker</h3>
+                    <p class="mb-0">Quickly compare two snippets or revision changes with precise line numbers and
+                        GitHub-style collapsible unchanged lines. Ideal for spotting additions, deletions, and
+                        refactoring modifications side by side.</p>
+                </div>
             </div>
 
+            <!-- GIT PANEL -->
             <div class="tab-panel-content" id="git-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
                         <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-git text-danger me-2"></i>Git Command
                             Generator</h2>
@@ -798,10 +862,17 @@
                         </div>
                     </div>
                 </div>
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About Git Command Generator</h3>
+                    <p class="mb-0">Generate complex terminal command sequences for version control tasks. Avoid syntax
+                        errors when handling rebases, branch cleanup, force resets, and remote merges.</p>
+                </div>
             </div>
 
+            <!-- JWT PANEL -->
             <div class="tab-panel-content" id="jwt-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
                         <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-key text-info me-2"></i>JWT Token
                             Inspector</h2>
@@ -823,10 +894,18 @@
                         </div>
                     </div>
                 </div>
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About Free Online JWT Inspector</h3>
+                    <p class="mb-0">JSON Web Tokens (JWT) consist of a header, payload, and signature. This secure
+                        client-side tool lets you decode, inspect, and debug your authentication claims instantly inside
+                        your browser without sending sensitive token data to an external server.</p>
+                </div>
             </div>
 
+            <!-- BASE64 PANEL -->
             <div class="tab-panel-content" id="base64-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
                         <h2 class="h6 mb-0 text-light fw-semibold"><i
                                 class="bi bi-shield-lock text-light me-2"></i>Base64 Encoder & Decoder</h2>
@@ -847,10 +926,17 @@
                         </div>
                     </div>
                 </div>
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About Base64 Encoder & Decoder</h3>
+                    <p class="mb-0">Quickly convert raw text strings into secure Base64 format or decode payloads
+                        instantly with local browser processing capabilities.</p>
+                </div>
             </div>
 
+            <!-- HASH PANEL -->
             <div class="tab-panel-content" id="hash-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
                         <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-hash text-success me-2"></i>SHA-256
                             Hash Generator</h2>
@@ -867,10 +953,17 @@
                         </div>
                     </div>
                 </div>
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About SHA-256 Hash Generator</h3>
+                    <p class="mb-0">Compute secure cryptographic SHA-256 string hashes instantly using high-performance
+                        browser Web Crypto APIs.</p>
+                </div>
             </div>
 
+            <!-- REGEX PANEL -->
             <div class="tab-panel-content" id="regex-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
                         <h2 class="h6 mb-0 text-light fw-semibold"><i class="bi bi-regex text-warning me-2"></i>Regex
                             Evaluator</h2>
@@ -896,10 +989,17 @@
                             style="min-height: 80px;"></div>
                     </div>
                 </div>
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About Regex Evaluator</h3>
+                    <p class="mb-0">Test and evaluate Regular Expressions in real-time against custom test strings with
+                        full global, case-insensitive, and multiline flag management.</p>
+                </div>
             </div>
 
+            <!-- CRON PANEL -->
             <div class="tab-panel-content" id="cron-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
                         <h2 class="h6 mb-0 text-light fw-semibold"><i
                                 class="bi bi-clock-history text-light me-2"></i>Cron Schedule Syntax Explainer</h2>
@@ -911,10 +1011,17 @@
                         <textarea id="cronOutput" class="form-control code-font" rows="3" readonly></textarea>
                     </div>
                 </div>
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About Cron Schedule Syntax Explainer</h3>
+                    <p class="mb-0">Translate cryptic 5-part cron syntax schedules into readable plain English
+                        descriptions instantly to make scheduling backend jobs easier.</p>
+                </div>
             </div>
 
+            <!-- UUID PANEL -->
             <div class="tab-panel-content" id="uuid-panel">
-                <div class="glass-card">
+                <div class="glass-card mb-4">
                     <div class="card-header border-bottom border-secondary border-opacity-10 p-3 p-md-4">
                         <h2 class="h6 mb-0 text-light fw-semibold"><i
                                 class="bi bi-ui-checks-grid text-success me-2"></i>UUID v4 Generator</h2>
@@ -925,15 +1032,13 @@
                         <textarea id="uuidOutput" class="form-control code-font" rows="6" readonly></textarea>
                     </div>
                 </div>
-            </div>
-
-            <!-- BOTTOM NATIVE AD (Commented out until approved) -->
-            <!-- <div class="mt-4">
-                <div class="ad-container-leaderboard p-3 text-center">
-                    <span class="native-ad-badge">Sponsor</span>
-                    <span class="text-secondary small ms-2"><strong>JetBrains WebStorm:</strong> The smartest JavaScript & TypeScript IDE. Try free for 30 days.</span>
+                <!-- SEO Content Block -->
+                <div class="glass-card p-4 text-secondary small">
+                    <h3 class="h6 text-light fw-semibold mb-2">About UUID v4 Generator</h3>
+                    <p class="mb-0">Generate standard cryptographically secure random UUID version 4 identifiers
+                        instantly for database records, session tokens, and unique identifiers.</p>
                 </div>
-            </div> -->
+            </div>
 
         </main>
 
@@ -946,21 +1051,6 @@
                 data-bs-target="#termsModal">Terms of Service</a>
         </footer>
     </div>
-
-    <!-- Adsterra Social Bar Floating Widget (Commented out until approved) -->
-    <!-- <div class="adsterra-social-bar p-3 d-none d-md-block" id="socialBarWidget">
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <span class="native-ad-badge">Adsterra Widget</span>
-            <button type="button" class="btn-close btn-close-white ms-auto" style="font-size: 0.65rem;" onclick="document.getElementById('socialBarWidget').remove()"></button>
-        </div>
-        <div class="d-flex align-items-center gap-2 mt-2">
-            <i class="bi bi-bell-fill text-warning fs-5"></i>
-            <div>
-                <strong class="text-light d-block small">New API Monitoring Suite</strong>
-                <span class="text-secondary" style="font-size: 0.75rem;">Track downtime & latency globally in real-time.</span>
-            </div>
-        </div>
-    </div> -->
 
     <!-- HISTORY DRAWER -->
     <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="historyDrawer">
@@ -1024,6 +1114,44 @@
         </div>
     </div>
 
+    <!-- Toast Container for Modern Alerts -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+        <div id="appToast"
+            class="toast align-items-center text-bg-dark border border-secondary border-opacity-25 shadow-lg rounded-3"
+            role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body small" id="toastMessage">
+                    Notification message here...
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Password Prompt Modal -->
+    <div class="modal fade text-dark" id="passwordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border border-secondary border-opacity-25 shadow-lg">
+                <div class="modal-header border-bottom border-secondary border-opacity-25">
+                    <h5 class="modal-title h6" id="passwordModalTitle">Enter Password</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary" id="passwordModalDesc">Please enter a password:</p>
+                    <input type="password" id="customPasswordInput" class="form-control code-font bg-dark text-light"
+                        placeholder="Type password here...">
+                </div>
+                <div class="modal-footer border-top border-secondary border-opacity-25">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="modalCancelBtn"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-accent btn-sm" id="modalSubmitBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -1041,6 +1169,69 @@
                 if (el) {
                     el.addEventListener(event, callback);
                 }
+            }
+
+            // Modern Toast Helper
+            function showToast(message, type = 'success') {
+                const toastMsg = document.getElementById('toastMessage');
+                const toastEl = document.getElementById('appToast');
+                if (!toastMsg || !toastEl) return;
+
+                toastMsg.textContent = message;
+                toastEl.className = `toast align-items-center text-bg-dark border shadow-lg rounded-3 ${type === 'error' ? 'border-danger' : 'border-success'}`;
+
+                const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
+                toast.show();
+            }
+
+            // Custom Modal Prompt Helper (Returns a Promise)
+            function showPasswordPrompt(title, description) {
+                return new Promise((resolve) => {
+                    const modalEl = document.getElementById('passwordModal');
+                    const titleEl = document.getElementById('passwordModalTitle');
+                    const descEl = document.getElementById('passwordModalDesc');
+                    const inputEl = document.getElementById('customPasswordInput');
+                    const submitBtn = document.getElementById('modalSubmitBtn');
+                    const cancelBtn = document.getElementById('modalCancelBtn');
+
+                    if (!modalEl) { resolve(null); return; }
+
+                    titleEl.textContent = title;
+                    descEl.textContent = description;
+                    inputEl.value = '';
+
+                    const modal = new bootstrap.Modal(modalEl);
+                    modal.show();
+
+                    modalEl.addEventListener('shown.bs.modal', () => inputEl.focus(), { once: true });
+
+                    const cleanup = () => {
+                        submitBtn.removeEventListener('click', onSubmit);
+                        cancelBtn.removeEventListener('click', onCancel);
+                        inputEl.removeEventListener('keydown', onKeydown);
+                    };
+
+                    const onSubmit = () => {
+                        const val = inputEl.value;
+                        modal.hide();
+                        cleanup();
+                        resolve(val);
+                    };
+
+                    const onCancel = () => {
+                        modal.hide();
+                        cleanup();
+                        resolve(null);
+                    };
+
+                    const onKeydown = (e) => {
+                        if (e.key === 'Enter') onSubmit();
+                    };
+
+                    submitBtn.addEventListener('click', onSubmit);
+                    cancelBtn.addEventListener('click', onCancel);
+                    inputEl.addEventListener('keydown', onKeydown);
+                });
             }
 
             // Global Tab Switcher Function
@@ -1126,7 +1317,8 @@
                     'JWT Decoder': 'jwt-panel',
                     'Regex Tester': 'regex-panel',
                     'Cron Explainer': 'cron-panel',
-                    'UUID Generator': 'uuid-panel'
+                    'UUID Generator': 'uuid-panel',
+                    'API Test': 'api-panel'
                 };
 
                 history.forEach((item) => {
@@ -1184,12 +1376,38 @@
                                 const uOut = document.getElementById('uuidOutput');
                                 if (uOut) uOut.value = item.text;
                             }
+                            else if (targetPanel === 'api-panel') {
+                                if (item.rawInput) {
+                                    try {
+                                        const state = JSON.parse(item.rawInput);
+                                        const mEl = document.getElementById('apiMethod');
+                                        const uEl = document.getElementById('apiUrl');
+                                        const hEl = document.getElementById('apiHeaders');
+                                        const bEl = document.getElementById('apiRequestBody');
+                                        const outEl = document.getElementById('ApiResponseOutput');
+                                        const statusEl = document.getElementById('apiStatus');
+
+                                        if (mEl) mEl.value = state.method || 'GET';
+                                        if (uEl) uEl.value = state.url || '';
+                                        if (hEl) hEl.value = state.headers || '';
+                                        if (bEl) bEl.value = state.body || '';
+                                        if (outEl) outEl.value = state.response || '';
+                                        if (statusEl) {
+                                            statusEl.textContent = `Status: ${state.status || 'Restored'}`;
+                                            statusEl.className = "text-success";
+                                        }
+                                    } catch (err) {
+                                        console.error("Failed to parse API history payload", err);
+                                    }
+                                }
+                            }
 
                             const drawerEl = document.getElementById('historyDrawer');
                             if (drawerEl && window.bootstrap) {
                                 const instance = bootstrap.Offcanvas.getInstance(drawerEl);
                                 if (instance) instance.hide();
                             }
+
                         });
                     }
 
@@ -1229,9 +1447,10 @@
             targetInput?.addEventListener('input', generateGitCmd);
             opSelect?.addEventListener('change', generateGitCmd);
             on('btnCopyGit', 'click', () => {
-                if (resultInput) {
+                if (resultInput && resultInput.value) {
                     navigator.clipboard.writeText(resultInput.value);
                     saveHistory('Git Helper', resultInput.value);
+                    showToast('📋 Git command copied to clipboard!');
                 }
             });
             generateGitCmd();
@@ -1265,7 +1484,6 @@
                     }
                 }
 
-                // Group changes and collapse large unchanged sections (keep 3-line context)
                 let blockId = 0;
                 let i = 0;
 
@@ -1336,7 +1554,6 @@
             const codeInput = document.getElementById('codeFormatterInput');
             const codeOutput = document.getElementById('codeFormatterOutput');
             const codeLang = document.getElementById('codeLangSelect');
-
 
             function formatHTML(code) {
                 let formatted = '', indent = 0;
@@ -1457,8 +1674,12 @@
             });
 
             on('btnCopyCode', 'click', () => {
-                if (codeOutput) navigator.clipboard.writeText(codeOutput.value);
+                if (codeOutput && codeOutput.value) {
+                    navigator.clipboard.writeText(codeOutput.value);
+                    showToast('📋 Code copied to clipboard!');
+                }
             });
+
             on('btnClearCode', 'click', () => {
                 if (codeInput) codeInput.value = '';
                 if (codeOutput) codeOutput.value = '';
@@ -1554,6 +1775,320 @@
 
             // Initial format run
             document.getElementById('btnFormatCode')?.click();
+
+            // API TESTER LOGIC
+            const apiMethod = document.getElementById('apiMethod');
+            const apiUrl = document.getElementById('apiUrl');
+            const apiHeaders = document.getElementById('apiHeaders');
+            const apiRequestBody = document.getElementById('apiRequestBody');
+            const ApiResponseOutput = document.getElementById('ApiResponseOutput');
+            const apiStatus = document.getElementById('apiStatus');
+
+
+            // 1. Send Request using Fetch (With Custom Headers Support)
+            document.getElementById('btnSendApi')?.addEventListener('click', async () => {
+                const url = apiUrl?.value.trim();
+                const method = apiMethod?.value;
+                const headersText = apiHeaders?.value.trim();
+                const bodyText = apiRequestBody?.value.trim();
+
+                if (!url) {
+                    showToast('Please enter a valid endpoint URL.', 'error');
+                    return;
+                }
+
+                ApiResponseOutput.value = "Sending request...";
+                apiStatus.textContent = "Status: Loading...";
+                apiStatus.className = "text-info";
+
+                let requestHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                };
+
+                if (headersText) {
+                    try {
+                        const customHeaders = JSON.parse(headersText);
+                        requestHeaders = { ...requestHeaders, ...customHeaders };
+                    } catch (e) {
+                        ApiResponseOutput.value = "Error: Request Headers must be valid JSON.";
+                        apiStatus.textContent = "Status: Error (Invalid Headers JSON)";
+                        apiStatus.className = "text-danger";
+                        return;
+                    }
+                }
+
+                const options = {
+                    method: method,
+                    headers: requestHeaders
+                };
+
+                if (['POST', 'PUT', 'PATCH'].includes(method) && bodyText) {
+                    try {
+                        options.body = JSON.stringify(JSON.parse(bodyText));
+                    } catch (e) {
+                        ApiResponseOutput.value = "Error: Request body must be valid JSON.";
+                        apiStatus.textContent = "Status: Error (Invalid JSON Body)";
+                        apiStatus.className = "text-danger";
+                        return;
+                    }
+                }
+
+                try {
+                    const startTime = performance.now();
+                    const response = await fetch(url, options);
+                    const endTime = performance.now();
+                    const duration = Math.round(endTime - startTime);
+
+                    const textData = await response.text();
+                    let prettyData = textData;
+                    try {
+                        prettyData = JSON.stringify(JSON.parse(textData), null, 4);
+                    } catch (err) { }
+
+                    ApiResponseOutput.value = prettyData;
+                    apiStatus.textContent = `Status: ${response.status} ${response.statusText} (${duration}ms)`;
+                    apiStatus.className = response.ok ? "text-success" : "text-danger";
+
+                    saveHistory('API Test', `${method} ${url} [${response.status}]`, bodyText);
+                } catch (error) {
+                    ApiResponseOutput.value = "Fetch Error: " + error.message + "\n\n(Note: Ensure the API supports CORS headers).";
+                    apiStatus.textContent = "Status: Network Error / CORS Blocked";
+                    apiStatus.className = "text-danger";
+                }
+            });
+
+            function str2ab(str) {
+                const buf = new ArrayBuffer(str.length);
+                const bufView = new Uint8Array(buf);
+                for (let i = 0, strLen = str.length; i < strLen; i++) {
+                    bufView[i] = str.charCodeAt(i);
+                }
+                return buf;
+            }
+
+            function ab2base64(buffer) {
+                const bytes = new Uint8Array(buffer);
+                let binary = '';
+                for (let i = 0; i < bytes.byteLength; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                return btoa(binary);
+            }
+
+            // 2. Encrypted Share Link with Password & Headers
+            document.getElementById('btnShareEncryptedApi')?.addEventListener('click', async () => {
+                const customPassword = await showPasswordPrompt("Secure API Link", "Enter a custom password/passphrase for this shared link:");
+                if (!customPassword) return; // Cancelled
+
+                const state = {
+                    m: apiMethod?.value,
+                    u: apiUrl?.value,
+                    h: apiHeaders?.value,
+                    b: apiRequestBody?.value
+                };
+
+                try {
+                    const salt = window.crypto.getRandomValues(new Uint8Array(16));
+                    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+
+                    const enc = new TextEncoder();
+                    const baseKey = await window.crypto.subtle.importKey(
+                        "raw",
+                        enc.encode(customPassword),
+                        { name: "PBKDF2" },
+                        false,
+                        ["deriveKey"]
+                    );
+
+                    const key = await window.crypto.subtle.deriveKey(
+                        {
+                            name: "PBKDF2",
+                            salt: salt,
+                            iterations: 100000,
+                            hash: "SHA-256"
+                        },
+                        baseKey,
+                        { name: "AES-GCM", length: 256 },
+                        true,
+                        ["encrypt", "decrypt"]
+                    );
+
+                    const encryptedContent = await window.crypto.subtle.encrypt(
+                        { name: "AES-GCM", iv: iv },
+                        key,
+                        str2ab(JSON.stringify(state))
+                    );
+
+                    const cipherPayload = encodeURIComponent(ab2base64(encryptedContent));
+                    const ivPayload = encodeURIComponent(ab2base64(iv));
+                    const saltPayload = encodeURIComponent(ab2base64(salt));
+
+                    const secureHash = `#api-panel&enc=${cipherPayload}&iv=${ivPayload}&s=${saltPayload}`;
+                    const shareUrl = `${window.location.origin}${window.location.pathname}${secureHash}`;
+
+                    navigator.clipboard.writeText(shareUrl);
+                    showToast('🔒 Password-protected link copied to clipboard!');
+                } catch (err) {
+                    console.error("Encryption failed", err);
+                    showToast('Failed to encrypt request state.', 'error');
+                }
+            });
+
+            function base642ab(base64) {
+                // Replace space-to-plus just in case any slipped through
+                const fixedBase64 = base64.replace(/ /g, '+');
+                const binaryString = atob(fixedBase64);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes.buffer;
+            }
+
+            // 3. Decrypt State on Page Load (Restoring Method, URL, Headers, and Body)
+            window.addEventListener('load', async () => {
+                const hash = window.location.hash;
+                if (hash.includes('enc=') && hash.includes('iv=') && hash.includes('s=')) {
+                    try {
+                        const params = new URLSearchParams(hash.replace('#api-panel&', ''));
+                        const cipherBase64 = params.get('enc');
+                        const ivBase64 = params.get('iv');
+                        const saltBase64 = params.get('s');
+
+                        if (!cipherBase64 || !ivBase64 || !saltBase64) return;
+                        console.log("Salt Base64:", saltBase64);
+                        console.log("IV Base64:", ivBase64);
+                        console.log("Cipher Base64:", cipherBase64);
+                        let decryptedSuccessfully = false;
+                        let promptMessage = "This shared API link is password-protected. Enter the password:";
+
+                        // Loop to continuously re-prompt on incorrect password
+                        while (!decryptedSuccessfully) {
+                            const customPassword = await showPasswordPrompt("Unlock API Link", promptMessage);
+
+                            if (!customPassword) return; // User cancelled the prompt
+
+                            try {
+                                const enc = new TextEncoder();
+                                const baseKey = await window.crypto.subtle.importKey(
+                                    "raw",
+                                    enc.encode(customPassword),
+                                    { name: "PBKDF2" },
+                                    false,
+                                    ["deriveKey"]
+                                );
+
+                                const key = await window.crypto.subtle.deriveKey(
+                                    {
+                                        name: "PBKDF2",
+                                        salt: new Uint8Array(base642ab(saltBase64)),
+                                        iterations: 100000,
+                                        hash: "SHA-256"
+                                    },
+                                    baseKey,
+                                    { name: "AES-GCM", length: 256 },
+                                    true,
+                                    ["decrypt"]
+                                );
+
+                                const decryptedContent = await window.crypto.subtle.decrypt(
+                                    { name: "AES-GCM", iv: new Uint8Array(base642ab(ivBase64)) },
+                                    key,
+                                    base642ab(cipherBase64)
+                                );
+
+                                const decodedString = new TextDecoder().decode(decryptedContent);
+                                const state = JSON.parse(decodedString);
+
+                                if (apiMethod) apiMethod.value = state.m || 'GET';
+                                if (apiUrl) apiUrl.value = state.u || '';
+                                if (apiHeaders) apiHeaders.value = state.h || '';
+                                if (apiRequestBody) apiRequestBody.value = state.b || '';
+
+                                if (typeof switchTab === 'function') switchTab('api-panel');
+
+                                // Mark as successful to exit the loop
+                                decryptedSuccessfully = true;
+
+                            } catch (e) {
+                                console.warn("Decryption failed:", e);
+                                // Update prompt message for the next retry iteration
+                                promptMessage = "⚠️ Incorrect password. Please try again:";
+                                if (typeof showToast === 'function') {
+                                    showToast('⚠️ Incorrect password.', 'error');
+                                }
+                            }
+                        }
+
+                    } catch (error) {
+                        console.error("Setup failed", error);
+                    }
+                }
+            });
+        });
+
+
+        // EXPORT POSTMAN COLLECTION LOGIC
+        document.getElementById('btnExportApiPostman')?.addEventListener('click', () => {
+            const method = apiMethod?.value || 'GET';
+            const url = apiUrl?.value || '';
+            const headersText = apiHeaders?.value || '';
+            const bodyText = apiRequestBody?.value || '';
+
+            // Convert headers text to Postman format array
+            let headerItems = [];
+            try {
+                if (headersText) {
+                    const parsedHeaders = JSON.parse(headersText);
+                    headerItems = Object.entries(parsedHeaders).map(([key, value]) => ({ key, value }));
+                }
+            } catch (e) {
+                console.warn("Headers are not valid JSON, exporting headers as empty.");
+            }
+
+            // Build Postman v2.1 Collection JSON Structure
+            const postmanCollection = {
+                "info": {
+                    "name": "devZtoolkit Exported Collection",
+                    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+                },
+                "item": [
+                    {
+                        "name": url ? `${method} - ${url}` : "API Request",
+                        "request": {
+                            "method": method,
+                            "header": headerItems,
+                            "body": bodyText ? {
+                                "mode": "raw",
+                                "raw": bodyText,
+                                "options": {
+                                    "raw": {
+                                        "language": "json"
+                                    }
+                                }
+                            } : undefined,
+                            "url": {
+                                "raw": url
+                            }
+                        }
+                    }
+                ]
+            };
+
+            // Trigger File Download
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(postmanCollection, null, 4));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "devztoolkit-collection.postman_collection.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+
+            if (typeof showToast === 'function') {
+                showToast('📦 Postman Collection downloaded successfully!');
+            }
         });
     </script>
 </body>
