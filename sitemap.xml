@@ -7,49 +7,61 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://devztoolkit.netlify.app/#formatter-panel</loc>
+    <loc>https://devztoolkit.netlify.app/formatter</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://devztoolkit.netlify.app/#diff-panel</loc>
+    <loc>https://devztoolkit.netlify.app/diff</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://devztoolkit.netlify.app/#git-panel</loc>
+    <loc>https://devztoolkit.netlify.app/git</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://devztoolkit.netlify.app/#jwt-panel</loc>
+    <loc>https://devztoolkit.netlify.app/api</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://devztoolkit.netlify.app/#base64-panel</loc>
+    <loc>https://devztoolkit.netlify.app/jwt</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://devztoolkit.netlify.app/#regex-panel</loc>
+    <loc>https://devztoolkit.netlify.app/base64</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://devztoolkit.netlify.app/#cron-panel</loc>
+    <loc>https://devztoolkit.netlify.app/hash</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://devztoolkit.netlify.app/#api-panel</loc>
+    <loc>https://devztoolkit.netlify.app/regex</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://devztoolkit.netlify.app/cron</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://devztoolkit.netlify.app/uuid</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
